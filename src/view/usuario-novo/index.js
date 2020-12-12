@@ -3,6 +3,7 @@ import './usuario-novo.css'
 
 import firebase from '../../config/firebase';
 import 'firebase/auth';
+import NavBar from '../../components/navbar';
 
 function NovoUsuario() {
     const [email, setEmail] = useState('')
@@ -50,22 +51,25 @@ function NovoUsuario() {
     }
 
     return (
-        <div className="form-cadastro">
-            <form className="text-center form-login mx-auto mt-5">
-                <h1 className="h3 mb-3 text-black font-weight-bold">Cadastro</h1>
-                <input onChange={(e) => setEmail(e.target.value)} type="email" className="form-control my-2" placeholder="Email" />
-                <input onChange={(e) => setSenha(e.target.value)} type="password" className="form-control my-2" placeholder="Senha" />
+        <div>
+            <NavBar />
+            <div className="form-cadastro">
+                <form className="text-center form-login mx-auto mt-5">
+                    <h1 className="h3 mb-3 text-black font-weight-bold">Cadastro</h1>
+                    <input onChange={(e) => setEmail(e.target.value)} type="email" className="form-control my-2" placeholder="Email" />
+                    <input onChange={(e) => setSenha(e.target.value)} type="password" className="form-control my-2" placeholder="Senha" />
 
-                {
-                    carregando ? <div class="spinner-border text-danger" role="status"><span class="visually-hidden">Loading...</span></div>
-                        : <button onClick={cadastrar} type="button" className="btn btn-lg btn-block mt-3 btn-cadastro">Cadastrar</button>
-                }
+                    {
+                        carregando ? <div class="spinner-border text-danger" role="status"><span class="visually-hidden">Loading...</span></div>
+                            : <button onClick={cadastrar} type="button" className="btn btn-lg btn-block mt-3 btn-cadastro">Cadastrar</button>
+                    }
 
-                <div className="msg-login text-center my-5">
-                    {msgTipo === 'sucesso' && <span><strong>WOW!</strong>Usuário cadastrado com sucesso ! &#128526; </span>}
-                    {msgTipo === 'erro' && <span><strong>Ops!</strong>{msg} ! &#128546; </span>}
-                </div>
-            </form>
+                    <div className="msg-login text-center my-5">
+                        {msgTipo === 'sucesso' && <span><strong>WOW!</strong>Usuário cadastrado com sucesso ! &#128526; </span>}
+                        {msgTipo === 'erro' && <span><strong>Ops!</strong>{msg} ! &#128546; </span>}
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }
