@@ -9,8 +9,11 @@ function NovoUsuario() {
     const [senha, setSenha] = useState('')
     const [msgTipo, setMsgTipo] = useState('')
     const [msg, setMsg] = useState('')
+    const [carregando, setCarregando] = useState(0)
 
     function cadastrar() {
+        setCarregando(1)
+
         setMsgTipo(null)
 
         if (!email || !senha) {
@@ -21,9 +24,11 @@ function NovoUsuario() {
 
         firebase.auth().createUserWithEmailAndPassword(email, senha)
             .then(resultado => {
+                setCarregando(0)
                 setMsgTipo('sucesso')
             })
             .catch(erro => {
+                setCarregando(0)
 
                 switch (erro.message) {
                     case 'Password should be at least 6 characters':
@@ -51,7 +56,10 @@ function NovoUsuario() {
                 <input onChange={(e) => setEmail(e.target.value)} type="email" className="form-control my-2" placeholder="Email" />
                 <input onChange={(e) => setSenha(e.target.value)} type="password" className="form-control my-2" placeholder="Senha" />
 
-                <button onClick={cadastrar} type="button" className="btn btn-lg btn-block mt-3 btn-cadastro">Cadastrar</button>
+                {
+                    carregando ? <div class="spinner-border text-danger" role="status"><span class="visually-hidden">Loading...</span></div>
+                        : <button onClick={cadastrar} type="button" className="btn btn-lg btn-block mt-3 btn-cadastro">Cadastrar</button>
+                }
 
                 <div className="msg-login text-center my-5">
                     {msgTipo === 'sucesso' && <span><strong>WOW!</strong>Usuário cadastrado com sucesso ! &#128526; </span>}

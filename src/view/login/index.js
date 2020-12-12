@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './login.css';
 
 import firebase from '../../config/firebase';
@@ -31,7 +32,7 @@ function Login() {
 
                 <input onChange={(e) => setSenha(e.target.value)} type="password" id="inputPassword" className="form-control my-2" placeholder="Senha" />
 
-                <button onClick={logar} className="w-100 btn btn-lg btn-primary btn-block  btn-login" type="button">Logar</button>
+                <button onClick={logar} className="w-100 btn btn-lg btn-primary btn-block btn-login" type="button">Logar</button>
 
                 <div className="msg-login text-white text-center my-5">
                     {msgTipo === 'sucesso' && <span><strong>WOW!</strong> Vocês está conectado ! &#128526; </span>}
@@ -41,7 +42,7 @@ function Login() {
                 <div className="opcoes-login text-center mt-5">
                     <a href="#" className="mx-2">Recuperar Senha</a>
                     <span className="text-white">&#9733;</span>
-                    <a href="#" className="mx-2">Quero Cadastrar</a>
+                    <Link to="/novousuario" className="mx-2">Quero Cadastrar</Link>
                 </div>
             </form>
         </div>
