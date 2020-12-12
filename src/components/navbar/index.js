@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './navbar.css';
+import { useSelector, useDispatch } from 'react-redux';
 
 function NavBar() {
+    const dispatch = useDispatch();
+
     return (
         <nav className="navbar navbar-expand-lg">
             <div className="container-fluid">
@@ -18,17 +21,35 @@ function NavBar() {
                         <li className="nav-item">
                             <Link className="nav-link" to="/">Home</Link>
                         </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/novousuario">Cadastrar</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/login">Login</Link>
-                        </li>
+
+                        {useSelector(state => state.usuarioLogado) > 0 ?
+
+                            <>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/">Meus Eventos</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/">Publicar Evento</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link" onClick={() => dispatch({ type: 'LOG_OUT' })}>Sair</a>
+                                </li>
+                            </>
+                            :
+                            <>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/novousuario">Cadastrar</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/login">Login</Link>
+                                </li>
+                            </>
+                        }
                     </ul>
 
                 </div>
             </div>
-        </nav>
+        </nav >
     );
 }
 
