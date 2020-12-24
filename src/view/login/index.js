@@ -13,19 +13,28 @@ function Login() {
 
     const dispatch = useDispatch();
 
-    function logar() {
-        firebase.auth().signInWithEmailAndPassword(email, senha)
-            .then(resultado => {
-                setMsgTipo('sucesso');
+    const logar = async () => {
+        try {
+            const retorno = await firebase.auth().signInWithEmailAndPassword(email, senha);
+            setMsgTipo('sucesso');
+            setTimeout(() => {
+                dispatch({ type: 'LOG_IN', usuarioEmail: email });
+            }, 2000);
+        } catch (error) {
+            setMsgTipo('erro');
+        }
 
-                setTimeout(() => {
-                    dispatch({ type: 'LOG_IN', usuarioEmail: email });
-                }, 2000);
-            })
-            .catch(erro => {
-                setMsgTipo('erro');
-            })
+        // firebase.auth().signInWithEmailAndPassword(email, senha)
+        //     .then(resultado => {
+        //         setMsgTipo('sucesso');
 
+        //         setTimeout(() => {
+        //             dispatch({ type: 'LOG_IN', usuarioEmail: email });
+        //         }, 2000);
+        //     })
+        //     .catch(erro => {
+        //         setMsgTipo('erro');
+        //     })
     }
 
     return (
@@ -34,6 +43,8 @@ function Login() {
 
             <form className="mx-auto">
                 <div className="text-center">
+                    <i class="far fa-smile-wink text-white fa-5x"></i>
+
                     <h1 className="h3 mb-3 fw-normal text-white font-weight-bold">Login</h1>
                 </div>
 
@@ -49,7 +60,7 @@ function Login() {
                 </div>
 
                 <div className="opcoes-login text-center mt-5">
-                    <a href="#" className="mx-2">Recuperar Senha</a>
+                    <Link to="/usuariorecuperarsenha" className="mx-2">Recuperar Senha</Link>
                     <span className="text-white">&#9733;</span>
                     <Link to="/novousuario" className="mx-2">Quero Cadastrar</Link>
                 </div>

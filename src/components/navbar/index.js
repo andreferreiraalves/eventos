@@ -9,7 +9,7 @@ function NavBar() {
     return (
         <nav className="navbar navbar-expand-lg">
             <div className="container-fluid">
-                <span className="navbar-brand text-white font-weight-bold">Eventos</span>
+                <i class="far fa-smile-wink text-white fa-2x"></i>
 
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i className="fas fa-bars text-white"></i>
@@ -29,7 +29,7 @@ function NavBar() {
                                     <Link className="nav-link" to="/">Meus Eventos</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/">Publicar Evento</Link>
+                                    <Link className="nav-link" to="/eventocadastro">Publicar Evento</Link>
                                 </li>
                                 <li className="nav-item">
                                     <a className="nav-link" onClick={() => dispatch({ type: 'LOG_OUT' })}>Sair</a>
