@@ -101,7 +101,7 @@ function EventoCadastro() {
                     <div className="row">
                         {
                             carregando > 0
-                                ? <div class="spinner-border text-danger mx-auto" role="status"><span class="visually-hidden">Loading...</span></div>
+                                ? <div className="spinner-border text-danger mx-auto" role="status"><span className="visually-hidden">Loading...</span></div>
                                 : <button onClick={cadastrar} type="button" className="btn btn-lg btn-block mt-3 btn-cadastro">Publicar evento</button>
                         }
                     </div>

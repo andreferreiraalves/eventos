@@ -60,7 +60,7 @@ function NovoUsuario() {
                     <input onChange={(e) => setSenha(e.target.value)} type="password" className="form-control my-2" placeholder="Senha" />
 
                     {
-                        carregando ? <div class="spinner-border text-danger" role="status"><span class="visually-hidden">Loading...</span></div>
+                        carregando ? <div className="spinner-border text-danger" role="status"><span className="visually-hidden">Loading...</span></div>
                             : <button onClick={cadastrar} type="button" className="btn btn-lg btn-block mt-3 btn-cadastro">Cadastrar</button>
                     }
 
