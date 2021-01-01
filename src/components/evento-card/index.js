@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './evento-card.css';
+import firebase from '../../config/firebase';
 
-function EventoCard(id, img, titulo, detalhes, visualizacoes) {
+function EventoCard({ id, img, titulo, detalhes, visualizacoes }) {
+    const [urlImagem, setUrlImagem] = useState();
+
+    useEffect(() => {
+        firebase.storage().ref(`imagens/${img}`).getDownloadURL()
+            .then(url => setUrlImagem(url));
+    }, [urlImagem]);
+
     return (
-        <div className="col-md-3 col-sm-12">
-            <img src="https://via.placeholder.com/500" className="card-img-top img-cartao" alt="Baner do Evento" />
+        <div className="cad-content col-md-3 col-sm-12">
+            <img src={urlImagem} className="card-img-top img-cartao" alt="Baner do Evento" />
 
             <div className="card-body">
                 <h5>{titulo}</h5>
@@ -15,11 +23,11 @@ function EventoCard(id, img, titulo, detalhes, visualizacoes) {
 
                 <div className="row rodape-card d-flex align-item-center">
                     <div className="col-6">
-                        <Link to='/' className="btn btn-sm btn-detalhes"> + Detalhes</Link>
+                        <Link to={'/eventosdetalhe/' + id} className="btn btn-sm btn-detalhes"> + Detalhes</Link>
                     </div>
 
                     <div className="col-6 text-right">
-                        <i className="fas fa-eye"></i><span> {visualizacoes}</span>
+                        <i className="fas fa-eye"></i> <span>{visualizacoes}</span>
                     </div>
 
                 </div>

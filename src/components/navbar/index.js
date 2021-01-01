@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import './navbar.css';
 import { useSelector, useDispatch } from 'react-redux';
 
 function NavBar() {
     const dispatch = useDispatch();
+    const history = useHistory();
 
     return (
         <nav className="navbar navbar-expand-lg">
@@ -26,13 +27,16 @@ function NavBar() {
 
                             <>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/">Meus Eventos</Link>
+                                    <Link className="nav-link" to="/eventos/meus">Meus Eventos</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/eventocadastro">Publicar Evento</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" onClick={() => dispatch({ type: 'LOG_OUT' })}>Sair</a>
+                                    <a className="nav-link" onClick={() => {
+                                        dispatch({ type: 'LOG_OUT' });
+                                        history.push('/login');
+                                    }}>Sair</a>
                                 </li>
                             </>
                             :

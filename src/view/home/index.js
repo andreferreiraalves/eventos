@@ -6,31 +6,64 @@ import './home.css';
 import NavBar from '../../components/navbar';
 import EventoCard from '../../components/evento-card';
 
-function Home() {
-    const [eventos, setEventos] = useState();
+function Home({ match }) {
+    const [eventos, setEventos] = useState([]);
+    const [pesquisa, setPesquisa] = useState('');
     let listaEventos = [];
+    const usuarioEmail = useSelector(state => state.usuarioEmail);
 
     useEffect(() => {
-        firebase.firestore().collection('eventos').get()
-            .then(async (resultado) => {
-                await resultado.docs.forEach(doc => {
-                    listaEventos.push({
-                        id: doc.id,
-                        ...doc.data()
-                    });
-                });
+        if (match.params.parametro) {
+            firebase.firestore().collection('eventos')
+                .where('usuario', '==', usuarioEmail)
+                .get()
+                .then(async (resultado) => {
+                    await resultado.docs.forEach(doc => {
+                        if (doc.data().titulo.indexOf(pesquisa) >= 0) {
+                            listaEventos.push({
+                                id: doc.id,
+                                ...doc.data()
+                            });
+                        }
+                    })
 
-                setEventos(listaEventos);
-            });
-    });
+                    setEventos(listaEventos);
+                });
+        } else {
+            firebase.firestore().collection('eventos').get()
+                .then(async (resultado) => {
+                    await resultado.docs.forEach(doc => {
+                        if (doc.data().titulo.indexOf(pesquisa) >= 0) {
+                            listaEventos.push({
+                                id: doc.id,
+                                ...doc.data()
+                            });
+                        }
+                    })
+
+                    setEventos(listaEventos);
+                });
+        }
+
+    }, [pesquisa]);
 
     return (
         <>
             <NavBar />
-            <h1>{useSelector(state => state.usuarioEmail)}</h1>
 
-            <div className="row">
-                {/* {eventos.map(item => <EventoCard key={item.id} id={item.id} img={item.foto} titulo={item.titulo} detalhes={item.detalhes} visualizacoes={item.visualizacoes} />)} */}
+
+            <div className="row p-3">
+                <div className="row my-3 px-5">
+                    <h2 className="text-center pb-2">Eventos Publicados</h2>
+                    <input onChange={(e) => setPesquisa(e.target.value)} type="text" className="form-control text-center" placeholder="Pesquisar evento pelo títutlo" />
+                </div>
+
+                <div className="row p-3">
+                    {
+                        eventos.map(item =>
+                            <EventoCard key={item.id} id={item.id} img={item.foto} titulo={item.titulo} detalhes={item.detalhes} visualizacoes={item.visualizacoes} />)
+                    }
+                </div>
 
             </div>
         </>
