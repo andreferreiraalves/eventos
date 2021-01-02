@@ -26,7 +26,8 @@ function EventoCadastro(props) {
     const db = firebase.firestore();
 
     useEffect(() => {
-        firebase.firestore().collection('eventos').doc(idEvento).get()
+        if (idEvento) {
+            firebase.firestore().collection('eventos').doc(idEvento).get()
             .then(resultado => {
                 const dado = resultado.data();
                 setTitulo(dado.titulo);
@@ -36,6 +37,7 @@ function EventoCadastro(props) {
                 setHora(dado.hora);
                 setfotoAtual(dado.foto);
             });
+        }
     }, []);
 
     function atualizar() {

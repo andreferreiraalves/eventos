@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import './evento-detalhes.css';
 
 import firebase from '../../config/firebase';
@@ -11,6 +11,8 @@ export default function EventoDetalhes(props) {
     const [evento, setEvento] = useState({});
     const [urlImg, setUrlImg] = useState();
     const [carregando, setcarregando] = useState(1);
+    const [excluido, setexcluido] = useState(0);
+
     const usuarioLogado = useSelector(state => state.usuarioEmail);
 
     useEffect(() => {
@@ -31,8 +33,15 @@ export default function EventoDetalhes(props) {
             });
     }, []);
 
+    function remover() {
+        firebase.firestore().collection('eventos').doc(props.match.params.id).delete()
+            .then(resultado => setexcluido(1))
+    }
+
     return (
         <>
+            { excluido > 0 ? <Redirect to='/' /> : null}
+
             <NavBar />
             <div className="container-fluid">
                 {
@@ -83,7 +92,15 @@ export default function EventoDetalhes(props) {
                                 (usuarioLogado == evento.usuario) &&
                                 <Link to={`/editarevento/${props.match.params.id}`} className="btn-editar"><i className="fas fa-pen-square fa-3x"></i></Link>
                             }
-                        </div>}
+
+                            {
+                                (usuarioLogado == evento.usuario) &&
+                                <button onClick={remover} type="button" className="btn btn-lg btn-block mt-3 btn-cadastro">
+                                    Remover Evento
+                                </button>
+                            }
+                        </div>
+                }
             </div>
         </>
     );
